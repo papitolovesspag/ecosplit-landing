@@ -35,7 +35,7 @@ export default function ContactUs() {
             <div className="contact-links">
               <div className="contact-link-item email-link">
                 <FiMail className="contact-icon" />
-                <a href="mailto:support.ecosplit.ai@gmail.com">support.ecosplit.ai@gmail.com</a>
+                <a href="mailto:support@ecosplitai.site">support@ecosplitai.site</a>
               </div>
               <div className="contact-link-item phone-link">
                 <FiPhone className="contact-icon" />
