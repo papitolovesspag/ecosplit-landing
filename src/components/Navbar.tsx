@@ -1,9 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FiSun, FiMoon } from "react-icons/fi";
+import { FiSun, FiMoon, FiArrowRight, FiTerminal } from "react-icons/fi";
+import Link from "next/link";
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenConsole?: () => void;
+}
+
+export default function Navbar({ onOpenConsole }: NavbarProps) {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,14 +27,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["hero", "how-it-works", "about-us", "pricing", "contact-us"];
+      const sections = ["hero", "architecture", "how-it-works", "api-integrations", "pricing", "about-us", "contact-us"];
       let currentSection = "hero";
       
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
           const rect = el.getBoundingClientRect();
-          // If the section top is above the middle of the viewport, consider it active
           if (rect.top <= window.innerHeight / 2) {
             currentSection = sectionId;
           }
@@ -39,7 +43,7 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // run once on load
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -48,6 +52,16 @@ export default function Navbar() {
     setTheme(nextTheme);
     document.documentElement.setAttribute("data-theme", nextTheme);
     localStorage.setItem("theme", nextTheme);
+  };
+
+  const handleSignInClick = () => {
+    setIsMobileMenuOpen(false);
+    if (onOpenConsole) {
+      onOpenConsole();
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("open-launch-console"));
+    }
   };
 
   return (
@@ -69,11 +83,20 @@ export default function Navbar() {
             </li>
             <li>
               <a 
-                href="#about-us" 
-                className={activeSection === "about-us" ? "active" : ""}
+                href="#architecture" 
+                className={activeSection === "architecture" ? "active" : ""}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                About Us
+                AI Engine
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#api-integrations" 
+                className={activeSection === "api-integrations" ? "active" : ""}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                API &amp; Telemetry
               </a>
             </li>
             <li>
@@ -87,6 +110,15 @@ export default function Navbar() {
             </li>
             <li>
               <a 
+                href="#about-us" 
+                className={activeSection === "about-us" ? "active" : ""}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About Us
+              </a>
+            </li>
+            <li>
+              <a 
                 href="#contact-us" 
                 className={activeSection === "contact-us" ? "active" : ""}
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -95,20 +127,44 @@ export default function Navbar() {
               </a>
             </li>
           </ul>
-          <button
-            id="theme-toggle"
-            className="theme-toggle-btn"
-            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-            onClick={toggleTheme}
-          >
-            {theme === "dark" ? (
-              <FiMoon className="icon-moon" />
-            ) : (
-              <FiSun className="icon-sun" />
-            )}
-          </button>
+
+          <div className="nav-actions">
+            <button 
+              type="button" 
+              className="btn-nav-signin"
+              onClick={handleSignInClick}
+              aria-label="Sign In to Cloud Console"
+            >
+              <FiTerminal /> Sign In
+            </button>
+
+            <Link 
+              href="/demo" 
+              className="btn-nav-launch"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Launch App <FiArrowRight />
+            </Link>
+
+            <button
+              id="theme-toggle"
+              className="theme-toggle-btn"
+              aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+              onClick={toggleTheme}
+            >
+              {theme === "dark" ? (
+                <FiMoon className="icon-moon" />
+              ) : (
+                <FiSun className="icon-sun" />
+              )}
+            </button>
+          </div>
         </nav>
-        <button className={`hamburger-menu ${isMobileMenuOpen ? "open" : ""}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle Menu">
+        <button 
+          className={`hamburger-menu ${isMobileMenuOpen ? "open" : ""}`} 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+          aria-label="Toggle Menu"
+        >
           <span className="hamburger-line"></span>
           <span className="hamburger-line"></span>
           <span className="hamburger-line"></span>

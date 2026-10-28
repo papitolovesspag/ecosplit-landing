@@ -1,63 +1,79 @@
-# Project: EcoSplit AI Landing Page
+# Project: EcoSplit AI Platform Revamp
+
+## Executive Overview
+Revamp the EcoSplit AI platform to decisively satisfy Microsoft for Startups Founders Hub / Spendbase criteria (MVP stage or beyond, scalable cloud software model, and natively integrated AI/ML), transforming it from an ideation/service-style page into a live AI-native energy optimization SaaS platform.
 
 ## Architecture
-EcoSplit AI is a landing page built with Next.js (App Router), Vanilla CSS, Framer Motion, and WebGL (Three.js).
-The architecture consists of:
-- **WebGL/Three.js Background**: A background canvas overlaying the page with fluid 3D abstract neon particles, reacting to scroll/mouse movements. In light mode, it transitions to a clean, bright, subtle particle representation.
-- **Hero Section**: Premium deep dark mode presentation of EcoSplit AI's value proposition with glassmorphic cards and vibrant neon borders, seamlessly adapting to a clean, light-mode palette when toggled.
-- **How It Works Section**: A scroll-controlled component using Framer Motion's `useScroll` and `useTransform` to drive step-by-step animation states, demonstrating the split energy-saving logic across 4 steps, concluding with the AI Co-Pilot / Chatbot feature.
-- **About Us Section**: Highlighting the company's background and mission statement, structured specifically around a Founder Profile featuring a founder image placeholder and bio.
-- **Contact Us Section**: A premium responsive contact form with input validation and feedback animations, accompanied by contact details and placeholders/icons for GitHub, LinkedIn, Email, and Phone number.
-- **Global Theme & CSS Variables**: Defined in `globals.css` with dark/light themes. The dark theme has a deep dark background (`#030712`), neon green (`#10b981`), and neon cyan (`#06b6d4`). The light theme translates these to clean, bright counterparts with dark text, while preserving the premium accents. Includes a theme toggle component.
+- **Framework**: Next.js 16.2.9 (App Router) + React 19.2.4 + TypeScript 5
+- **Styling**: Vanilla CSS with custom properties in `src/app/globals.css` (Glassmorphic dark/light neon theme)
+- **Visuals**: Three.js WebGL particle background (`src/hooks/useWebGL.ts`) + Framer Motion animations
+- **Routing**:
+  - Landing Page: `/` (`src/app/page.tsx`)
+  - Live MVP Simulator Portal: `/demo` (`src/app/demo/page.tsx`, with `/app` redirect)
+- **E2E Testing**: Playwright runner (`e2e/runner.js`) with 63 automated test cases covering Hero, HowItWorks, AboutUs, Pricing, ContactUs, Theme, Scenarios, and Cross-feature workflows.
 
-## Code Layout
-```
-├── .agents/
-├── public/
-│   └── assets/           # AI-generated assets, logos, and images
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx    # Global layout, fonts, and metadata
-│   │   ├── page.tsx      # Main landing page assembling sections
-│   │   └── globals.css   # Theme variables, custom utility styles
-│   ├── components/
-│   │   ├── WebGLBackground.tsx  # Three.js canvas setup
-│   │   ├── Hero.tsx             # Hero section
-│   │   ├── HowItWorks.tsx       # Interactive step-by-step demo
-│   │   ├── AboutUs.tsx          # About Us cards
-│   │   ├── ContactUs.tsx        # Contact Us form
-│   │   └── ui/                  # Reusable UI primitives (buttons, inputs, glass cards)
-│   └── hooks/
-│       └── useWebGL.ts          # Custom hook for WebGL initialization/events
-├── e2e/                  # E2E Test suite
-│   ├── tests/            # Test cases (Tiers 1-4)
-│   └── runner.js         # Test runner script
-├── package.json
-└── README.md
-```
+## Feature Inventory
+| # | Feature | Description | Milestone | Source |
+|---|---------|-------------|-----------|--------|
+| 1 | Live Interactive MVP Simulator Route (`/demo`) | Dedicated Next.js App Router interactive portal delivering real-time energy load splitting | M1 | ORIGINAL_REQUEST §R1 |
+| 2 | Interactive Load-Balancing Controls | Sliders/toggles for energy load (kW), peak shaving threshold (kW), grid tariff multiplier ($/kWh), and battery split (%) | M1 | ORIGINAL_REQUEST §R1 |
+| 3 | Real-Time Telemetry Visualizer | Reactive calculation engine & SVG/Canvas visualizers showing baseline vs split kW, grid load, cost reduction (up to 45%), and carbon offset | M1 | ORIGINAL_REQUEST §R1 |
+| 4 | Interactive AI Co-Pilot Assistant | Chat interface with prompt pills ('Optimize for peak tariff', 'Diagnose load anomaly', 'Simulate grid outage', 'Forecast tomorrow peak') mutating parameters & providing AI reasoning | M1 | ORIGINAL_REQUEST §R1 |
+| 5 | Operational Preset Scenarios | 4 quick preset buttons (Peak Tariff Arbitrage, Green Grid Low Carbon, Critical Stress Peaker, EV Fleet Spike) | M1 | Explorer 3 Survey |
+| 6 | Dedicated AI/ML Engine Section (`#architecture`) | Breakdown of dual-engine pipeline: Deep Time-Series Neural Forecasting & Tariff Arbitrage + Autonomous LLM Co-Pilot | M2 | ORIGINAL_REQUEST §R3 |
+| 7 | Live Neural Performance Telemetry | Specs display: <118ms P99 inference latency, 98.4% day-ahead accuracy, continuous reinforcement learning | M2 | ORIGINAL_REQUEST §R3 |
+| 8 | Dedicated API & Integrations Showcase (`#api-integrations`) | Code snippet tabs (cURL, TypeScript, Python) for `/v1/telemetry/split` and OpenADR 2.0b VEN compliance | M2 | ORIGINAL_REQUEST §R2 |
+| 9 | Pre-Built Hardware & Inverter Connectors | Connector cards for Enphase Enlighten, SolarEdge Cloud, Tesla Powerwall & Energy API, OpenADR 2.0b | M2 | ORIGINAL_REQUEST §R2 |
+| 10 | Global Navbar & Hero SaaS Entry Points | Prominent "Launch App" (links to `/demo`) and "Sign In" / "Launch Console" CTAs added to Navbar and Hero | M3 | ORIGINAL_REQUEST §R1 |
+| 11 | SaaS Messaging Refactor | Replace 100% of manual setup, agency, or service consulting language with automated cloud-native onboarding | M3 | ORIGINAL_REQUEST §R2 |
+| 12 | Revamped Modern SaaS Pricing Tiers | Developer Sandbox (Free Core $0), Pro SaaS (AI Premium $29/mo), and Enterprise Cloud banner preserving 2-card test selector invariant | M3 | ORIGINAL_REQUEST §R2, Explorer 1/2 |
+| 13 | Interactive Launch Console / Free Trial Modal | Self-serve onboarding modal with hardware selection, instant API token generation, and `/demo` jump link | M3 | ORIGINAL_REQUEST §R2 |
+| 14 | Executive Founder Profile Update | Reposition Xavier as "Founder & Chief Architect", spotlighting AI/ML systems, cloud infrastructure, and distributed grid telemetry | M3 | ORIGINAL_REQUEST §R4 |
+| 15 | Enterprise Sales & Developer API Contact | Upgrade ContactUs to enterprise fleet inquiries, API support, and cloud meter sync credentials | M3 | ORIGINAL_REQUEST §R4 |
+| 16 | Modern SaaS Footer & System Health | Global footer with developer resources, legal/security tokens, and live operational status indicator | M3 | Explorer 2 Survey |
+| 17 | Zero-Error Compilation & Linting | Verify `npm.cmd run build` and `npm.cmd run lint` succeed with zero errors | M4 | ORIGINAL_REQUEST §R5 |
+| 18 | E2E Test Suite Preservation | Ensure all 63 Playwright tests in `e2e/runner.js` continue passing with zero regressions | M4 | ORIGINAL_REQUEST §R5 |
+| 19 | Git Delivery | Clean git commit with comprehensive description and push to `origin main` | M4 | ORIGINAL_REQUEST §R5 |
 
 ## Milestones
-| # | Name | Scope | Dependencies | Status | Conversation ID |
-|---|------|-------|-------------|--------|-----------------|
-| 1 | E2E Testing Track | Define feature inventory and build E2E test suite (Tiers 1-4) in `e2e/`, publishing `TEST_READY.md`. | None | DONE | 4b498897-2100-4e20-b3f5-597eab80efd8 |
-| 2 | Project Setup & WebGL Base | Initialize Next.js, add dependencies, configure Vanilla CSS theme variables for dark/light themes, implement theme toggle state, and implement Three.js/WebGL background. | None | DONE | 0a23a647-bf9d-44b4-ac82-3513082dc32a |
-| 3 | Hero Section & UI Kit | Build the Hero section, navbar (with light/dark toggle), and reusable glassmorphism components with neon accents. | M2 | DONE | 0a23a647-bf9d-44b4-ac82-3513082dc32a |
-| 4 | How It Works Animation | Implement the scroll-triggered step-by-step product demo using Framer Motion & R4 fix. | M3 | DONE | 0a23a647-bf9d-44b4-ac82-3513082dc32a |
-| 5 | About & Contact Sections | Build the About Us and Contact Us sections, including responsive design and form validation. | M4 | DONE | 0a23a647-bf9d-44b4-ac82-3513082dc32a |
-| 6 | Integration & Verification | Pass 100% of E2E tests (Tiers 1-4) and verify with Forensic Auditor. | M1, M5 | DONE | 094c3dfd-1f89-4907-bf69-4968d277e098 |
+| # | Name | Scope | Dependencies | Status |
+|---|------|-------|-------------|--------|
+| M1 | Live Interactive MVP Simulator & AI Co-Pilot Portal | Route `src/app/demo/page.tsx`, simulation engine, reactive SVG telemetry, interactive AI Co-Pilot chat, scenario presets | none | DONE |
+| M2 | AI/ML Engine & API Integrations Architecture Showcase | `src/components/Architecture.tsx`, `src/components/ApiShowcase.tsx`, interactive code tabs, hardware connectors, neural performance specs | none | DONE |
+| M3 | Landing Page SaaS Revamp, Pricing, Founder & Enterprise Positioning | `Navbar.tsx`, `Hero.tsx`, `Pricing.tsx`, `AboutUs.tsx`, `ContactUs.tsx`, `HowItWorks.tsx`, `LaunchConsoleModal.tsx`, `Footer.tsx`, `page.tsx`, `globals.css` | M1, M2 | DONE |
+| M4 | E2E Verification, Build Validation, Test Invariant Compliance & Git Push | `npm.cmd run build`, `npm.cmd run lint`, Playwright runner (63 tests passing 100%), clean git commit and push to `origin main` | M1, M2, M3 | DONE |
 
 ## Interface Contracts
-### WebGLBackground ↔ Page Components
-- WebGLBackground is a fixed-position background element rendering under all other content.
-- It exposes events or reactive controls (e.g., custom events or window scroll listeners) to adjust animation speed or density based on the active section.
+### Main Landing Page ↔ Live MVP Simulator (`/demo`)
+- Primary Entry: Navbar button `Launch App` -> `href="/demo"`
+- Secondary Entry: Hero primary CTA `Launch App` -> `href="/demo"`
+- Modal Entry: `LaunchConsoleModal` -> Button "Open Live Simulator Console" -> `router.push('/demo')`
+- Return Entry: Header in `/demo` provides `← Return to Landing` linking back to `/`
+- Theme Sync: `/demo` shares the root layout's `data-theme="dark"` / `data-theme="light"` CSS custom variables.
 
-### Light/Dark Mode Theme Provider
-- Theme state is managed at the root level (layout or context provider) and toggleable from the navbar.
-- Toggling theme updates the `data-theme` attribute on the `<html>` or `<body>` element (e.g. `data-theme="light"` or `data-theme="dark"`).
-- Global theme values (backgrounds, border gradients, text colors) are bound to CSS variables that respond reactively to this attribute.
+### Main Landing Page ↔ Launch Console Modal
+- Triggered by "Sign In" button in Navbar and "Launch Console" in Hero and Pricing tiers.
+- Focus trap and Escape key listener.
+- Preserves checkout text for Pro tier: "You selected the AI Premium plan ($29/mo)" for test compatibility.
 
-### Form Validation
-- Contact Form uses pure React states or standard HTML5 validation styled with custom CSS to provide premium error and success states.
+### E2E Test Invariant Contracts
+- `section#pricing .pricing-card` count MUST remain exactly 2 (Free Core & AI Premium).
+- `section#about-us` must retain `[data-testid="founder-bio"]`, `[data-testid="founder-image"]`, `[data-testid="mission-statement"]`, and `.toggle-bio`.
+- `section#contact-us` must retain `form#contact-form`, all field names, and `.success-message`.
+- `section#hero` must retain `a[href*="how-it-works"]` and `a[href*="contact-us"]`.
 
-### Abstract Scroll Controller
-- HowItWorks component uses a container element with `position: sticky` and height (e.g. `400vh`) to trigger scroll scroll progress from `0` to `1` using Framer Motion, updating internal step index (`0` to `4`).
+## Code Layout
+- `src/app/demo/page.tsx`: Live Interactive MVP Portal (client component)
+- `src/components/Architecture.tsx`: AI/ML Engine & Core Architecture section (`#architecture`)
+- `src/components/ApiShowcase.tsx`: API & Integrations showcase (`#api-integrations`)
+- `src/components/LaunchConsoleModal.tsx`: Interactive onboarding & API key generation modal
+- `src/components/Footer.tsx`: Global SaaS footer with system health status
+- `src/components/Navbar.tsx`: Updated header with Launch App, Sign In, and new navigation anchors
+- `src/components/Hero.tsx`: Updated SaaS copy and Launch App CTAs
+- `src/components/HowItWorks.tsx`: Updated cloud telemetry & neural forecasting step copy
+- `src/components/Pricing.tsx`: Updated SaaS pricing tiers with Enterprise banner & modal
+- `src/components/AboutUs.tsx`: Updated Founder & Chief Architect profile
+- `src/components/ContactUs.tsx`: Updated Enterprise Sales & API support
+- `src/app/page.tsx`: Page assembly in optimal narrative order
+- `src/app/globals.css`: Supporting styles for new components & simulator
+- `next.config.ts`: Added `/app` -> `/demo` redirect
