@@ -77,6 +77,7 @@ export default function HowItWorks() {
               className={`progressive-step-card glass-card ${step.id === 4 ? "step-chatbot chatbot" : ""} ${index % 2 === 0 ? "row-normal" : "row-reverse"}`}
             >
               <div className="progressive-step-image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={step.image} alt={step.title} />
               </div>
               <div className={`progressive-step-content step-content-${step.id}`}>

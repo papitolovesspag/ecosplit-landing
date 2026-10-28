@@ -151,7 +151,7 @@ interface PricingProps {
   onOpenConsole?: () => void;
 }
 
-export default function Pricing(_props: PricingProps) {
+export default function Pricing({ onOpenConsole }: PricingProps) {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [selectedTier, setSelectedTier] = useState<"Free Core" | "AI Premium">("AI Premium");
@@ -163,6 +163,9 @@ export default function Pricing(_props: PricingProps) {
   const handleOpenTier = (tier: "Free Core" | "AI Premium") => {
     setSelectedTier(tier);
     setShowCheckoutModal(true);
+    if (onOpenConsole) {
+      onOpenConsole();
+    }
   };
 
   return (
